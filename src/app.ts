@@ -1,18 +1,15 @@
 import "dotenv/config";
 import express, { NextFunction, Request, Response } from 'express';
-import RoutineModel from "./models/routine"
+import routineRoutes from "./routes/routines"
+import morgan from "morgan"; 
 
 const app = express();
 
-app.get('/', async (req, res, next) => {
-    try {
-        throw Error('Mahboul shi?');
-        const routines = await RoutineModel.find().exec();
-        res.status(200).json(routines);
-    } catch (error) {
-        next(error);
-    }
-} );
+app.use(morgan('dev'));
+
+app.use(express.json());
+
+app.use("/api/routines", routineRoutes)
 
 app.use((req, res, next) => {
     next(Error("Endpoint not found"))
