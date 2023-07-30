@@ -9,4 +9,8 @@ router.get('/:routineId', RoutinesController.getRoutine)
 
 router.post('/', RoutinesController.createRoutine);
 
+router.patch('/:routineId', RoutinesController.updateRoutine);
+
+router.delete('/:routineId', RoutinesController.deleteRoutine);
+
 export default router;
