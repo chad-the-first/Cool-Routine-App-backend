@@ -16,4 +16,4 @@ mongoose_1.default.connect(mongodb)
     });
 })
     .catch(console.error);
-//# sourceMappingURL=server.js.map
+//# sourceMappingURL=index.js.map
