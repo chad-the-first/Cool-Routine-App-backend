@@ -1,16 +1,16 @@
-import express, { Request, Response } from 'express'
+import app from "./app"
+import env from "./util/validateEnv"
+import mongoose from "mongoose";
 
-const app = express()
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 5000;
 
-app.get('/', (_req: Request, res: Response) => {
-  return res.send('Express Typescript on Vercel')
-})
+const mongodb = process.env.MONGO_CONNECTION_STRING || env.MONGO_CONNECTION_STRING;
 
-app.get('/ping', (_req: Request, res: Response) => {
-  return res.send('pong 🏓')
-})
-
-app.listen(port, () => {
-  return console.log(`Server is listening on ${port}`)
-})
+mongoose.connect(mongodb)
+    .then(() => {
+        console.log("Mongoose connected")
+        app.listen(port, () => {
+            console.log('server running on port: ' + port);
+        })
+    })
+    .catch(console.error);
