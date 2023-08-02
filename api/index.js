@@ -36,7 +36,18 @@ const express_session_1 = __importDefault(require("express-session"));
 const validateEnv_1 = __importDefault(require("./util/validateEnv"));
 const connect_mongo_1 = __importDefault(require("connect-mongo"));
 const auth_1 = require("./middleware/auth");
+const mongoose_1 = __importDefault(require("mongoose"));
 const app = (0, express_1.default)();
+const port = validateEnv_1.default.PORT || 5000;
+const mongodb = validateEnv_1.default.MONGODB_URI;
+mongoose_1.default.connect(mongodb)
+    .then(() => {
+    console.log("Mongoose connected");
+    app.listen(port, () => {
+        console.log('server running on port: ' + port);
+    });
+})
+    .catch(console.error);
 app.use((0, morgan_1.default)('dev'));
 app.use(express_1.default.json());
 app.use((0, express_session_1.default)({

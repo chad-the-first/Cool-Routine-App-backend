@@ -8,8 +8,22 @@ import session from "express-session";
 import env from "./util/validateEnv";
 import MongoStore from "connect-mongo";
 import { requiresAuth } from "./middleware/auth";
+import mongoose from "mongoose";
 
 const app = express();
+
+const port = env.PORT || 5000;
+
+const mongodb = env.MONGODB_URI;
+
+mongoose.connect(mongodb)
+    .then(() => {
+        console.log("Mongoose connected")
+        app.listen(port, () => {
+            console.log('server running on port: ' + port);
+        })
+    })
+    .catch(console.error);
 
 app.use(morgan('dev'));
 
