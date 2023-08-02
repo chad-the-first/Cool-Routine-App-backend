@@ -39,20 +39,20 @@ const auth_1 = require("./middleware/auth");
 const app = (0, express_1.default)();
 app.use((0, morgan_1.default)('dev'));
 app.use(express_1.default.json());
-if (!process.env.MONGODB_URI) {
+if (!validateEnv_1.default.MONGODB_URI) {
     throw new Error("Please add your Mongodb URI to enviroment variables");
 }
 else {
-    console.log(process.env.MONGODB_URI);
+    console.log(validateEnv_1.default.MONGODB_URI);
 }
-if (!process.env.SESSION_SECRET) {
+if (!validateEnv_1.default.SESSION_SECRET) {
     throw new Error("there's no sesssion secret!");
 }
 else {
-    console.log(process.env.SESSION_SECRET);
+    console.log(validateEnv_1.default.SESSION_SECRET);
 }
 app.use((0, express_session_1.default)({
-    secret: process.env.SESSION_SECRET || validateEnv_1.default.SESSION_SECRET,
+    secret: validateEnv_1.default.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -60,7 +60,7 @@ app.use((0, express_session_1.default)({
     },
     rolling: true,
     store: connect_mongo_1.default.create({
-        mongoUrl: process.env.MONGODB_URI
+        mongoUrl: validateEnv_1.default.MONGODB_URI
     }),
 }));
 app.use("/api/users", users_1.default);

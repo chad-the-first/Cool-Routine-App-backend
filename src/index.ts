@@ -15,20 +15,20 @@ app.use(morgan('dev'));
 
 app.use(express.json());
 
-if (!process.env.MONGODB_URI) {
+if (!env.MONGODB_URI) {
     throw new Error("Please add your Mongodb URI to enviroment variables")
 }else{
-    console.log(process.env.MONGODB_URI)
+    console.log(env.MONGODB_URI)
 }
 
-if (!process.env.SESSION_SECRET) {
+if (!env.SESSION_SECRET) {
     throw new Error("there's no sesssion secret!")
 }else{
-    console.log(process.env.SESSION_SECRET)
+    console.log(env.SESSION_SECRET)
 }
 
 app.use(session({
-    secret: process.env.SESSION_SECRET || env.SESSION_SECRET,
+    secret: env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -36,7 +36,7 @@ app.use(session({
     },
     rolling: true,
     store: MongoStore.create({
-        mongoUrl: process.env.MONGODB_URI 
+        mongoUrl: env.MONGODB_URI 
     }),
 }))
 
