@@ -16,7 +16,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 app.use(session({
-    secret: env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET || env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -24,7 +24,7 @@ app.use(session({
     },
     rolling: true,
     store: MongoStore.create({
-        mongoUrl: env.MONGO_CONNECTION_STRING
+        mongoUrl: process.env.MONGODB_URI 
     }),
 }))
 
