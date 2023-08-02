@@ -17,10 +17,14 @@ app.use(express.json());
 
 if (!process.env.MONGODB_URI) {
     throw new Error("Please add your Mongodb URI to enviroment variables")
+}else{
+    console.log(process.env.MONGODB_URI)
 }
 
 if (!process.env.SESSION_SECRET) {
     throw new Error("there's no sesssion secret!")
+}else{
+    console.log(process.env.SESSION_SECRET)
 }
 
 app.use(session({

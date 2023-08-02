@@ -42,8 +42,14 @@ app.use(express_1.default.json());
 if (!process.env.MONGODB_URI) {
     throw new Error("Please add your Mongodb URI to enviroment variables");
 }
+else {
+    console.log(process.env.MONGODB_URI);
+}
 if (!process.env.SESSION_SECRET) {
     throw new Error("there's no sesssion secret!");
+}
+else {
+    console.log(process.env.SESSION_SECRET);
 }
 app.use((0, express_session_1.default)({
     secret: process.env.SESSION_SECRET || validateEnv_1.default.SESSION_SECRET,
