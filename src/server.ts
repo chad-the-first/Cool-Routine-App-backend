@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 
 const port = process.env.PORT || 5000;
 
-const mongodb = process.env.MONGO_CONNECTION_STRING || env.MONGO_CONNECTION_STRING;
+const mongodb = process.env.MONGODB_URI || env.MONGO_CONNECTION_STRING;
 
 mongoose.connect(mongodb)
     .then(() => {
