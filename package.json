@@ -39,5 +39,10 @@
     "http-errors": "^2.0.0",
     "mongoose": "^7.4.1",
     "morgan": "^1.10.0"
-  }
+  },
+  "pre-commit": [
+    "ts.check",
+    "build",
+    "add-build"
+]
 }
