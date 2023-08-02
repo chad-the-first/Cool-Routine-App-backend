@@ -68,4 +68,4 @@ app.use((error, req, res, next) => {
     res.status(statusCode).json({ error: errorMessage });
 });
 exports.default = app;
-//# sourceMappingURL=app.js.map
+//# sourceMappingURL=index.js.map
