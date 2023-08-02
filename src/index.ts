@@ -15,6 +15,14 @@ app.use(morgan('dev'));
 
 app.use(express.json());
 
+if (!process.env.MONGODB_URI) {
+    throw new Error("Please add your Mongodb URI to enviroment variables")
+}
+
+if (!process.env.SESSION_SECRET) {
+    throw new Error("there's no sesssion secret!")
+}
+
 app.use(session({
     secret: process.env.SESSION_SECRET || env.SESSION_SECRET,
     resave: false,
