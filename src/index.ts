@@ -29,7 +29,7 @@ app.use(session({
 }))
 
 app.use("/api/users", userRoutes);
-app.use("/api/routines", routineRoutes);
+app.use("/api/routines", requiresAuth, routineRoutes);
 
 app.use((req, res, next) => {
     next(createHttpError(404, "Endpoint not found"));
