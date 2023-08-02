@@ -16,15 +16,6 @@ const port = env.PORT || 5000;
 
 const mongodb = env.MONGODB_URI;
 
-mongoose.connect(mongodb)
-    .then(() => {
-        console.log("Mongoose connected")
-        app.listen(port, () => {
-            console.log('server running on port: ' + port);
-        })
-    })
-    .catch(console.error);
-
 app.use(morgan('dev'));
 
 app.use(express.json());
@@ -60,5 +51,14 @@ app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
     }
     res.status(statusCode).json({ error: errorMessage });
 })
+
+mongoose.connect(mongodb)
+    .then(() => {
+        console.log("Mongoose connected")
+        app.listen(port, () => {
+            console.log('server running on port: ' + port);
+        })
+    })
+    .catch(console.error);
 
 export default app;
