@@ -9,6 +9,7 @@ import env from "./util/validateEnv";
 import MongoStore from "connect-mongo";
 import { requiresAuth } from "./middleware/auth";
 import mongoose from "mongoose";
+import CORS from "cors"
 
 const app = express();
 
@@ -17,6 +18,8 @@ const port = env.PORT || 5000;
 const mongodb = env.MONGODB_URI;
 
 app.use(morgan('dev'));
+
+app.use(CORS());
 
 app.use(express.json());
 
