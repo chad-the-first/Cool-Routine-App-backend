@@ -17,9 +17,13 @@ const port = env.PORT || 5000;
 
 const mongodb = env.MONGODB_URI;
 
+const options: CORS.CorsOptions = {
+    origin: ["https://routine-app-react.onrender.com/"]
+  };
+
 app.use(morgan('dev'));
 
-app.use(CORS());
+app.use(CORS(options));
 
 app.use(express.json());
 
