@@ -8,31 +8,25 @@ import session from "express-session";
 import env from "./util/validateEnv";
 import MongoStore from "connect-mongo";
 import { requiresAuth } from "./middleware/auth";
-import mongoose from "mongoose";
 import CORS from "cors"
 
 const app = express();
 
-const port = env.PORT || 5000;
-
-const mongodb = env.MONGODB_URI;
-
-const options: CORS.CorsOptions = {
-    origin: ["https://routine-app-react.onrender.com/"]
-  };
-
 app.use(morgan('dev'));
 
-app.use(CORS(options));
+app.use(CORS());
 
 app.use(express.json());
 
 app.use(session({
-    secret: env.SESSION_SECRET || env.SESSION_SECRET,
+    secret: env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
+        sameSite: "none",
+        secure: true,
         maxAge: 60 * 60 * 1000,
+        path: "/",
     },
     rolling: true,
     store: MongoStore.create({
@@ -59,13 +53,5 @@ app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
     res.status(statusCode).json({ error: errorMessage });
 })
 
-mongoose.connect(mongodb)
-    .then(() => {
-        console.log("Mongoose connected")
-        app.listen(port, () => {
-            console.log('server running on port: ' + port);
-        })
-    })
-    .catch(console.error);
 
 export default app;

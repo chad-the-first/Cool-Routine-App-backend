@@ -45,26 +45,43 @@ export const getRoutine: RequestHandler = async (req, res, next) => {
 }
 
 interface CreateRoutineBody {
-    title?: string,
-    text?: string,
+    fun: string,
+    knowledge: string,
+    work: string,
+    service: string,
+    self_care: string,
+    family: string,
+    date: string,
 }
 
 export const createRoutine: RequestHandler<unknown, unknown, CreateRoutineBody, unknown> = async (req, res, next) => {
-    const title = req.body.title;
-    const text = req.body.text;
+    const fun = req.body.fun;
+    const knowledge = req.body.knowledge;
+    const work = req.body.work;
+    const service = req.body.service;
+    const self_care = req.body.self_care;
+    const family = req.body.family;
+    const date = req.body.date;
+
     const authenticatedUserId = req.session.userId;
 
 
     try {
         assertIsDefined(authenticatedUserId);
-        if (!title) {
-            throw createHttpError(400, "Routine must have a title.")
+        
+        if (!date) {
+            throw createHttpError(400, "Routine must have a date.")
         }
 
         const newRoutine = await RoutineModel.create({
             userId: authenticatedUserId,
-            title: title,
-            text: text,
+            fun: fun,
+            knowledge: knowledge,
+            work: work,
+            service: service,
+            self_care: self_care,
+            family: family,
+            date: date,
         });
 
         res.status(201).json(newRoutine);
@@ -78,13 +95,21 @@ interface UpdateRoutineParams {
 }
 
 interface UpdateRoutineBody {
-    title?: string,
-    text?: string,
+    fun: string,
+    knowledge: string,
+    work: string,
+    service: string,
+    self_care: string,
+    family: string,
 }
 
 export const updateRoutine: RequestHandler<UpdateRoutineParams, unknown, UpdateRoutineBody, unknown> = async(req, res, next) => {
-    const newTitle = req.body.title;
-    const newText = req.body.text;
+    const newFun = req.body.fun;
+    const newKnowledge = req.body.knowledge;
+    const newWork = req.body.work;
+    const newService = req.body.service;
+    const newSelf_care = req.body.self_care;
+    const newFamily = req.body.family;
     const id = req.params.routineId;
     const authenticatedUserId = req.session.userId;
 
@@ -94,10 +119,6 @@ export const updateRoutine: RequestHandler<UpdateRoutineParams, unknown, UpdateR
 
         if (!mongoose.isValidObjectId(id)) {
             throw createHttpError(400, 'bad Id')
-        }
-
-        if (!newTitle) {
-            throw createHttpError(400, 'Routine must have a title');
         }
 
         const routine = await RoutineModel.findById(id).exec();
@@ -110,8 +131,12 @@ export const updateRoutine: RequestHandler<UpdateRoutineParams, unknown, UpdateR
             throw createHttpError(401, "You can't access this note.");
         }
 
-        routine.title = newTitle;
-        routine.text = newText;
+        routine.fun = newFun;
+        routine.knowledge = newKnowledge;
+        routine.work = newWork;
+        routine.service = newService;
+        routine.self_care = newSelf_care;
+        routine.family = newFamily;
 
         const updatedRoutine = await routine.save();
 

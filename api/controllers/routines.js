@@ -52,18 +52,28 @@ const getRoutine = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
 });
 exports.getRoutine = getRoutine;
 const createRoutine = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const title = req.body.title;
-    const text = req.body.text;
+    const fun = req.body.fun;
+    const knowledge = req.body.knowledge;
+    const work = req.body.work;
+    const service = req.body.service;
+    const self_care = req.body.self_care;
+    const family = req.body.family;
+    const date = req.body.date;
     const authenticatedUserId = req.session.userId;
     try {
         (0, assertIsDefined_1.assertIsDefined)(authenticatedUserId);
-        if (!title) {
-            throw (0, http_errors_1.default)(400, "Routine must have a title.");
+        if (!date) {
+            throw (0, http_errors_1.default)(400, "Routine must have a date.");
         }
         const newRoutine = yield routine_1.default.create({
             userId: authenticatedUserId,
-            title: title,
-            text: text,
+            fun: fun,
+            knowledge: knowledge,
+            work: work,
+            service: service,
+            self_care: self_care,
+            family: family,
+            date: date,
         });
         res.status(201).json(newRoutine);
     }
@@ -73,17 +83,18 @@ const createRoutine = (req, res, next) => __awaiter(void 0, void 0, void 0, func
 });
 exports.createRoutine = createRoutine;
 const updateRoutine = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const newTitle = req.body.title;
-    const newText = req.body.text;
+    const newFun = req.body.fun;
+    const newKnowledge = req.body.knowledge;
+    const newWork = req.body.work;
+    const newService = req.body.service;
+    const newSelf_care = req.body.self_care;
+    const newFamily = req.body.family;
     const id = req.params.routineId;
     const authenticatedUserId = req.session.userId;
     try {
         (0, assertIsDefined_1.assertIsDefined)(authenticatedUserId);
         if (!mongoose_1.default.isValidObjectId(id)) {
             throw (0, http_errors_1.default)(400, 'bad Id');
-        }
-        if (!newTitle) {
-            throw (0, http_errors_1.default)(400, 'Routine must have a title');
         }
         const routine = yield routine_1.default.findById(id).exec();
         if (!routine) {
@@ -92,8 +103,12 @@ const updateRoutine = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         if (!routine.userId.equals(authenticatedUserId)) {
             throw (0, http_errors_1.default)(401, "You can't access this note.");
         }
-        routine.title = newTitle;
-        routine.text = newText;
+        routine.fun = newFun;
+        routine.knowledge = newKnowledge;
+        routine.work = newWork;
+        routine.service = newService;
+        routine.self_care = newSelf_care;
+        routine.family = newFamily;
         const updatedRoutine = yield routine.save();
         res.status(200).json(updatedRoutine);
     }
