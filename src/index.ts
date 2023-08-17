@@ -12,9 +12,9 @@ import CORS from "cors"
 
 const app = express();
 
-app.use(morgan('dev'));
-
 app.use(CORS({credentials: true, origin: true}));
+
+app.use(morgan('dev'));
 
 app.use(express.json());
 
@@ -29,9 +29,10 @@ app.use(session({
         path: "/",
     },
     rolling: true,
+    proxy: true,
     store: MongoStore.create({
-        mongoUrl: env.MONGODB_URI 
-    }),
+        mongoUrl: env.MONGODB_URI
+    })
 }))
 
 app.use("/api/users", userRoutes);

@@ -38,8 +38,8 @@ const connect_mongo_1 = __importDefault(require("connect-mongo"));
 const auth_1 = require("./middleware/auth");
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
-app.use((0, morgan_1.default)('dev'));
 app.use((0, cors_1.default)({ credentials: true, origin: true }));
+app.use((0, morgan_1.default)('dev'));
 app.use(express_1.default.json());
 app.use((0, express_session_1.default)({
     secret: validateEnv_1.default.SESSION_SECRET,
@@ -52,9 +52,10 @@ app.use((0, express_session_1.default)({
         path: "/",
     },
     rolling: true,
+    proxy: true,
     store: connect_mongo_1.default.create({
         mongoUrl: validateEnv_1.default.MONGODB_URI
-    }),
+    })
 }));
 app.use("/api/users", users_1.default);
 app.use("/api/routines", auth_1.requiresAuth, routines_1.default);
