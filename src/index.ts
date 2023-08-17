@@ -14,7 +14,7 @@ const app = express();
 
 app.use(morgan('dev'));
 
-app.use(CORS());
+app.use(CORS({credentials: true, origin: true}));
 
 app.use(express.json());
 
